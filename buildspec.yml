@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+
+  pre_build:
+    commands:
+      - echo "Checking Java version..."
+      - java -version
+      - echo "Making gradlew executable..."
+      - chmod +x ./gradlew
+
+  build:
+    commands:
+      - echo "Starting gradle build..."
+      - ./gradlew build
+      - echo "Build completed successfully"
+
+  post_build:
+    commands:
+      - echo "Build finished at $(date)"
+
+artifacts:
+  files:
+    - build/libs/shop.war
+  name: shop-build-$(date +%Y%m%d-%H%M%S)
+  discard-paths: no
+
+cache:
+  paths:
+    - '/root/.gradle/caches/**/*'
+    - '/root/.gradle/wrapper/**/*'
