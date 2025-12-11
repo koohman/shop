@@ -24,7 +24,9 @@ phases:
 
 artifacts:
   files:
-    - build/libs/shop.war
+    - build/libs/ROOT.war
+    - appspec.yml
+    - scripts/**/*
   name: shop-build-$(date +%Y%m%d-%H%M%S)
   discard-paths: no
 
