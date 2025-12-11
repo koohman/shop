@@ -116,6 +116,6 @@ db.username=postgres
 db.password=postgres
 ```
 
-## 라이선스
+## 라이선스  
 
 MIT License
