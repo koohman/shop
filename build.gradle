@@ -32,5 +32,5 @@ dependencies {
 }
 
 war {
-    archiveFileName = 'shop.war'
+    archiveFileName = 'ROOT.war'
 }
