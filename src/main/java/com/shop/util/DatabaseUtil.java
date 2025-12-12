@@ -1,46 +1,28 @@
 package com.shop.util;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DatabaseUtil {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUtil.class);
-    private static HikariDataSource dataSource;
+    private static DataSource dataSource;
 
     static {
         try {
-            Properties props = new Properties();
-            InputStream input = DatabaseUtil.class.getClassLoader()
-                    .getResourceAsStream("db.properties");
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/agsdb");
+            logger.info("JNDI DataSource initialized successfully");
 
-            if (input == null) {
-                throw new RuntimeException("Unable to find db.properties");
-            }
-
-            props.load(input);
-
-            HikariConfig config = new HikariConfig();
-            config.setJdbcUrl(props.getProperty("db.url"));
-            config.setUsername(props.getProperty("db.username"));
-            config.setPassword(props.getProperty("db.password"));
-            config.setDriverClassName(props.getProperty("db.driver"));
-            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("hikari.maximumPoolSize", "10")));
-            config.setMinimumIdle(Integer.parseInt(props.getProperty("hikari.minimumIdle", "5")));
-            config.setConnectionTimeout(Long.parseLong(props.getProperty("hikari.connectionTimeout", "30000")));
-
-            dataSource = new HikariDataSource(config);
-            logger.info("Database connection pool initialized successfully");
-
-        } catch (IOException e) {
-            logger.error("Failed to load database properties", e);
+        } catch (NamingException e) {
+            logger.error("Failed to lookup JNDI DataSource", e);
             throw new RuntimeException("Failed to initialize database connection pool", e);
         }
     }
@@ -62,9 +44,7 @@ public class DatabaseUtil {
     }
 
     public static void shutdown() {
-        if (dataSource != null && !dataSource.isClosed()) {
-            dataSource.close();
-            logger.info("Database connection pool closed");
-        }
+        // JNDI DataSource는 컨테이너가 관리하므로 직접 종료하지 않음
+        logger.info("Database connection pool managed by container");
     }
 }

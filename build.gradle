@@ -23,8 +23,7 @@ dependencies {
     // PostgreSQL Driver
     implementation 'org.postgresql:postgresql:42.7.1'
 
-    // Connection Pool (Java 8 compatible version)
-    implementation 'com.zaxxer:HikariCP:4.0.3'
+    // Connection Pool managed by Tomcat JNDI (no HikariCP needed)
 
     // Logging (Java 8 compatible versions)
     implementation 'org.slf4j:slf4j-api:1.7.36'
