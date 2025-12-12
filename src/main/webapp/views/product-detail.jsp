@@ -73,8 +73,16 @@
             <!-- Product Image -->
             <div class="col-md-6">
                 <div class="card">
-                    <img src="${product.imageUrl != null ? product.imageUrl : 'https://via.placeholder.com/500x500?text=No+Image'}"
-                         class="card-img-top product-image" alt="${product.name}">
+                    <c:choose>
+                        <c:when test="${product.imageUrl != null && product.imageUrl != ''}">
+                            <img src="${product.imageUrl}" class="card-img-top product-image" alt="${product.name}">
+                        </c:when>
+                        <c:otherwise>
+                            <div class="card-img-top product-image d-flex align-items-center justify-content-center bg-light" style="min-height: 500px;">
+                                <span class="text-muted fs-4">이미지 없음</span>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
 
