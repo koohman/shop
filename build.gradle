@@ -23,12 +23,12 @@ dependencies {
     // PostgreSQL Driver
     implementation 'org.postgresql:postgresql:42.7.1'
 
-    // Connection Pool
-    implementation 'com.zaxxer:HikariCP:5.1.0'
+    // Connection Pool (Java 8 compatible version)
+    implementation 'com.zaxxer:HikariCP:4.0.3'
 
-    // Logging
-    implementation 'org.slf4j:slf4j-api:2.0.9'
-    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    // Logging (Java 8 compatible versions)
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'ch.qos.logback:logback-classic:1.2.12'
 }
 
 war {
