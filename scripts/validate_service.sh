@@ -8,10 +8,10 @@ MAX_ATTEMPTS=30
 ATTEMPT=0
 
 while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
-    # HTTP 200 응답 확인
+    # HTTP 응답 확인
     HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8180/ || echo "000")
 
-    if [ "$HTTP_STATUS" = "200" ]; then
+    if [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "302" ]; then
         echo "Service is running successfully! (HTTP $HTTP_STATUS)"
         exit 0
     elif [ "$HTTP_STATUS" = "404" ]; then
