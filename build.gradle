@@ -12,13 +12,12 @@ repositories {
 }
 
 dependencies {
-    // Servlet API
-    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-    compileOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.0'
+    // Servlet API (Tomcat 9 compatible - javax.servlet)
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
 
-    // JSTL
-    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
-    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    // JSTL (Tomcat 9 compatible)
+    implementation 'javax.servlet:jstl:1.2'
 
     // PostgreSQL Driver
     implementation 'org.postgresql:postgresql:42.7.1'
