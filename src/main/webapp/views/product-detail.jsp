@@ -140,7 +140,7 @@
             <div class="row mt-3">
                 <div class="col-12">
                     <small class="text-muted">
-                        등록일: <fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+                        등록일: ${product.createdAt.toString().substring(0, 16).replace('T', ' ')}
                     </small>
                 </div>
             </div>
