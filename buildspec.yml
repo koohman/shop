@@ -26,7 +26,12 @@ phases:
       - ls -la build/libs/
       - ls -la scripts/
       - echo "Checking appspec.yml exists..."
-      - test -f appspec.yml && echo "appspec.yml found" || echo "ERROR: appspec.yml NOT found"
+      - |
+        if [ -f appspec.yml ]; then
+          echo "appspec.yml found"
+        else
+          echo "ERROR: appspec.yml NOT found"
+        fi
 
 artifacts:
   files:
