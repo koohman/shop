@@ -21,6 +21,12 @@ phases:
   post_build:
     commands:
       - echo "Build finished at $(date)"
+      - echo "Verifying artifact files..."
+      - ls -la
+      - ls -la build/libs/
+      - ls -la scripts/
+      - echo "Checking appspec.yml exists..."
+      - test -f appspec.yml && echo "appspec.yml found" || echo "ERROR: appspec.yml NOT found"
 
 artifacts:
   files:
