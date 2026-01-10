@@ -14,11 +14,30 @@ public class ProductDAO {
 
     /**
      * 모든 활성 상품 목록 조회
+     * @param sortBy 정렬 옵션 ("latest", "price_asc", "price_desc")
      */
-    public List<Product> findAllActiveProducts() {
+    public List<Product> findAllActiveProducts(String sortBy) {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT id, name, description, price, stock, image_url, active, created_at, updated_at " +
-                     "FROM products WHERE active = true ORDER BY created_at DESC";
+                     "FROM products WHERE active = true ";
+        
+        // 정렬 옵션에 따라 ORDER BY 절 동적 생성
+        if (sortBy == null) {
+            sortBy = "latest"; // 기본값
+        }
+        
+        switch (sortBy) {
+            case "price_asc":
+                sql += "ORDER BY price ASC";
+                break;
+            case "price_desc":
+                sql += "ORDER BY price DESC";
+                break;
+            case "latest":
+            default:
+                sql += "ORDER BY created_at DESC";
+                break;
+        }
 
         Connection conn = null;
         PreparedStatement pstmt = null;

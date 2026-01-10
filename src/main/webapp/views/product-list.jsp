@@ -36,6 +36,30 @@
         .stock-low {
             color: #ffc107;
         }
+        .sort-buttons {
+            margin-bottom: 1rem;
+        }
+        .sort-buttons .btn-group {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .sort-buttons .btn-outline-primary.active {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }
+        .sort-buttons .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .sort-buttons .btn-group {
+                width: 100%;
+            }
+            .sort-buttons .btn {
+                flex: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -59,9 +83,27 @@
     <!-- Main Content -->
     <div class="container mt-4">
         <div class="row mb-4">
-            <div class="col">
+            <div class="col-md-6">
                 <h2>상품 목록</h2>
                 <p class="text-muted">전체 <strong>${productCount}</strong>개의 상품이 있습니다.</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-start sort-buttons">
+                <!-- 정렬 옵션 -->
+                <div class="btn-group" role="group" aria-label="정렬 옵션">
+                    <c:set var="currentSort" value="${sortBy != null ? sortBy : 'latest'}" />
+                    <a href="${pageContext.request.contextPath}/products?sort=latest" 
+                       class="btn btn-outline-primary ${currentSort == 'latest' ? 'active' : ''}">
+                        최신순
+                    </a>
+                    <a href="${pageContext.request.contextPath}/products?sort=price_asc" 
+                       class="btn btn-outline-primary ${currentSort == 'price_asc' ? 'active' : ''}">
+                        낮은 가격순
+                    </a>
+                    <a href="${pageContext.request.contextPath}/products?sort=price_desc" 
+                       class="btn btn-outline-primary ${currentSort == 'price_desc' ? 'active' : ''}">
+                        높은 가격순
+                    </a>
+                </div>
             </div>
         </div>
 

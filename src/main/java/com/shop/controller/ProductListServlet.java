@@ -48,17 +48,35 @@ public class ProductListServlet extends HttpServlet {
 
     private void showProductList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 활성 상품 목록 조회
-        List<Product> products = productDAO.findAllActiveProducts();
+        // 정렬 파라미터 추출
+        String sortBy = request.getParameter("sort");
+        
+        // 파라미터 검증 (null이거나 잘못된 값이면 "latest"로 설정)
+        if (sortBy == null || !isValidSortBy(sortBy)) {
+            sortBy = "latest";
+        }
+        
+        // 활성 상품 목록 조회 (정렬 옵션 전달)
+        List<Product> products = productDAO.findAllActiveProducts(sortBy);
 
-        // 요청 속성에 상품 목록 설정
+        // 요청 속성에 상품 목록 및 정렬 옵션 설정
         request.setAttribute("products", products);
         request.setAttribute("productCount", products.size());
+        request.setAttribute("sortBy", sortBy);
 
-        logger.info("Forwarding to product list view with {} products", products.size());
+        logger.info("Forwarding to product list view with {} products, sorted by: {}", products.size(), sortBy);
 
         // JSP 뷰로 포워딩
         request.getRequestDispatcher("/views/product-list.jsp").forward(request, response);
+    }
+
+    /**
+     * 정렬 파라미터 유효성 검증
+     * @param sortBy 정렬 옵션
+     * @return 유효한 값이면 true, 그렇지 않으면 false
+     */
+    private boolean isValidSortBy(String sortBy) {
+        return "latest".equals(sortBy) || "price_asc".equals(sortBy) || "price_desc".equals(sortBy);
     }
 
     private void showProductDetail(HttpServletRequest request, HttpServletResponse response, String pathInfo)
